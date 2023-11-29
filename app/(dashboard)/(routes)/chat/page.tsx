@@ -1,15 +1,15 @@
 "use client";
 
 import * as z from "zod";
-// import axios from "axios";
+import axios from "axios";
 import { MessageSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-// import { toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 // import { ChatCompletionRequestMessage } from "openai";
 
-// import { BotAvatar } from "@/components/bot-avatar";
+import { BotAvatar } from "@/components/bot-avatar";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,9 +17,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { Loader } from "@/components/loader";
-// import { UserAvatar } from "@/components/user-avatar";
+import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/ui/empty";
-// import { useProModal } from "@/hooks/use-pro-modal";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema } from "./constant";
 
@@ -38,29 +38,29 @@ const ChatPage = () => {
   const isLoading = form.formState.isSubmitting;
   
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // try {
-    //   const userMessage: ChatCompletionRequestMessage = { role: "user", content: values.prompt };
-    //   const newMessages = [...messages, userMessage];
+    try {
+      const userMessage: ChatCompletionRequestMessage = { role: "user", content: values.prompt };
+      const newMessages = [...messages, userMessage];
       
-    //   const response = await axios.post('/api/conversation', { messages: newMessages });
-    //   setMessages((current) => [...current, userMessage, response.data]);
+      const response = await axios.post('/api/conversation', { messages: newMessages });
+      setMessages((current) => [...current, userMessage, response.data]);
       
-    //   form.reset();
-    // } catch (error: any) {
-    //   if (error?.response?.status === 403) {
-    //     proModal.onOpen();
-    //   } else {
-    //     toast.error("Something went wrong.");
-    //   }
-    // } finally {
-    //   router.refresh();
-      // }
+      form.reset();
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      } else {
+        toast.error("Something went wrong.");
+      }
+    } finally {
+      router.refresh();
+      }
 
       console.log(values)
   }
 
   return ( 
-    <div>
+    <div className="flex flex-col h-full flex-grow justify-between">
       <Heading
         title="Chat"
         description="Our most advanced conversation model."
@@ -68,6 +68,34 @@ const ChatPage = () => {
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
       />
+      <div className="flex grow">
+ <div className="space-y-4 mt-4">
+          {isLoading && (
+            <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
+              <Loader />
+            </div>
+          )}
+          {messages.length === 0 && !isLoading && (
+            <Empty label="No conversation started." />
+          )}
+          <div className="flex flex-col-reverse gap-y-4">
+            {messages.map((message) => (
+              <div 
+                key={message.content} 
+                className={cn(
+                  "p-8 w-full flex items-start gap-x-8 rounded-lg",
+                  message.role === "user" ? "bg-white border border-black/10" : "bg-muted",
+                )}
+              >
+                {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
+                <p className="text-sm">
+                  {message.content}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div> 
+      </div>
       <div className="px-4 lg:px-8">
         <div>
           <Form {...form}>
@@ -107,32 +135,6 @@ const ChatPage = () => {
             </form>
           </Form>
         </div>
-        {/* <div className="space-y-4 mt-4">
-          {isLoading && (
-            <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
-              <Loader />
-            </div>
-          )}
-          {messages.length === 0 && !isLoading && (
-            <Empty label="No conversation started." />
-          )}
-          <div className="flex flex-col-reverse gap-y-4">
-            {messages.map((message) => (
-              <div 
-                key={message.content} 
-                className={cn(
-                  "p-8 w-full flex items-start gap-x-8 rounded-lg",
-                  message.role === "user" ? "bg-white border border-black/10" : "bg-muted",
-                )}
-              >
-                {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <p className="text-sm">
-                  {message.content}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div> */}
       </div>
     </div>
    );
