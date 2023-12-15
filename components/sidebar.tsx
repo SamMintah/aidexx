@@ -10,7 +10,8 @@ import {
   Music,
   Settings,
   SquareCodeIcon,
-  Video
+  Video,
+  Code
 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
@@ -18,6 +19,7 @@ const montserrat = Montserrat({
   weight: '600',
   subsets: ['latin']
 });
+
 const routes = [
   {
     label: 'Dashboard',
@@ -42,6 +44,12 @@ const routes = [
     icon: Video,
     href: '/video',
     color: 'text-sky-500'
+  },
+  {
+    label: 'Code Generation',
+    icon: Code,
+    href: '/code',
+    color: 'text-sky-500',
   },
   {
     label: 'Screenshot 2 Code',

@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import {
   ArrowRight,
-  ImageIcon,
+  Image,
   Music,
   SquareCodeIcon,
   Video,
@@ -16,9 +16,9 @@ import { useRouter } from 'next/navigation';
 const tools = [
   {
     label: 'Image Generation',
+    icon: Image,  
     description:
       'Effortlessly create and customize images for your projects.Aidexx provides quick and intuitive tools for generating images tailored to your needs.',
-    icon: ImageIcon,
     href: '/image',
     color: 'text-pink-500',
     bgColor: 'text-sky-500/10'
@@ -74,7 +74,7 @@ export default function DashboardPage() {
   const router = useRouter();
   return (
     <div>
-      <div className="mb-8 space-y-4 md:m-5">
+      <div className="space-y-4 m-5">
         <h2 className="text-2xl md:text-3xl font-bold text-center">
           Welcome to Aidexx AI
         </h2>
@@ -84,21 +84,21 @@ export default function DashboardPage() {
           Aidexx is your all-in-one solution for seamless innovation.
         </p>
       </div>
-      <div className="px-4 md:px-20 lg:px-36 space-y-4 grid md:grid-cols-2 gap-4">
+      <div className="px-4 md:px-20 space-y-2 grid md:grid-cols-2 gap-4">
         {tools.map((tool) => (
           <Card
             onClick={()=>router.push(tool.href)}
             key={tool.href}
-            className="p-4 border-black/5 flex flex-col items-center bg-slate-10 justify-between hover:shadow-md transition cursor-pointer"
+            className="px-4 py-2 border-black/5 flex flex-col items-center bg-slate-50 justify-between hover:shadow-md transition cursor-pointer"
           >
             <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col items-center gap-x-4">
+              <div className="flex flex-col items-center">
                 <div className={cn('p-2 w-fit rounded-md', tool.bgColor)}>
-                  <tool.icon className={cn('w-8 h-8', tool.color)} />
+                  <tool.icon className={cn('w-8 h-6', tool.color)} />
                 </div>
                 <div className="font-semibold">{tool.label}</div>
               </div>
-              <div className="p-5 text-base md:text-sm text-muted-foreground text-center">
+              <div className="p-2 text-base md:text-sm text-muted-foreground text-center">
                 {tool.description}
               </div>
               <div className="flex justify-center items-center">
@@ -108,7 +108,7 @@ export default function DashboardPage() {
           </Card>
         ))}
       </div>
-      <div className="md:px-20 md:m-10 h-20">
+      <div className="md:px-20 md:m-10 h-10">
       </div>
     </div>
   );
