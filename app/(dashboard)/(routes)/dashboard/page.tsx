@@ -15,6 +15,15 @@ import { useRouter } from 'next/navigation';
 
 const tools = [
   {
+    label: 'Chat',
+    description:
+      'Enhance communication with integrated chat features. Aidexx facilitates seamless interaction and collaboration within your projects.',
+    icon: MessageCircleCode,
+    href: '/chat',
+    color: 'text-green-500',
+    bgColor: 'text-sky-500/5'
+  },
+  {
     label: 'Image Generation',
     icon: Image,  
     description:
@@ -57,15 +66,6 @@ const tools = [
     icon: SquareCodeIcon,
     href: '/code',
     color: 'text-orange-500',
-    bgColor: 'text-sky-500/5'
-  },
-  {
-    label: 'Chat',
-    description:
-      'Enhance communication with integrated chat features. Aidexx facilitates seamless interaction and collaboration within your projects.',
-    icon: MessageCircleCode,
-    href: '/chat',
-    color: 'text-green-500',
     bgColor: 'text-sky-500/5'
   }
 ];

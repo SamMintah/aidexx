@@ -28,6 +28,12 @@ const routes = [
     color: 'text-sky-500'
   },
   {
+    label: 'Chat',
+    icon: MessageCircleCode,
+    href: '/chat',
+    color: 'text-sky-500'
+  },
+  {
     label: 'Image Generation',
     icon: ImageIcon,
     href: '/image',
@@ -49,18 +55,12 @@ const routes = [
     label: 'Code Generation',
     icon: Code,
     href: '/code',
-    color: 'text-sky-500',
+    color: 'text-sky-500'
   },
   {
     label: 'Screenshot 2 Code',
     icon: SquareCodeIcon,
     href: '/code',
-    color: 'text-sky-500'
-  },
-  {
-    label: 'Chat',
-    icon: MessageCircleCode,
-    href: '/convo',
     color: 'text-sky-500'
   },
   {
