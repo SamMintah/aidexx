@@ -1,27 +1,25 @@
-"use client";
+'use client';
 
-import * as z from "zod";
-import axios from "axios";
-import { MessageSquare } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import { ChatCompletionRequestMessage } from "openai";
-
-import { BotAvatar } from "@/components/bot-avatar";
-import { Heading } from "@/components/heading";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { cn } from "@/lib/utils";
-import { Loader } from "@/components/loader";
-import { UserAvatar } from "@/components/user-avatar";
-import { Empty } from "@/components/ui/empty";
-import { useProModal } from "@/hooks/use-pro-modal";
-
-import { formSchema } from "./constant";
+import * as z from 'zod';
+import axios from 'axios';
+import { MessageSquare } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { ChatCompletionRequestMessage } from 'openai';
+import { BotAvatar } from '@/components/bot-avatar';
+import { Heading } from '@/components/heading';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { cn } from '@/lib/utils';
+import { Loader } from '@/components/loader';
+import { UserAvatar } from '@/components/user-avatar';
+import { Empty } from '@/components/ui/empty';
+import { useProModal } from '@/hooks/use-pro-modal';
+import { formSchema } from './constant';
 
 const ChatPage = () => {
   const router = useRouter();
@@ -31,35 +29,40 @@ const ChatPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      promt: ""
+      prompt: ''
     }
   });
 
   const isLoading = form.formState.isSubmitting;
-  
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const userMessage: ChatCompletionRequestMessage = { role: "user", content: values.prompt };
+      const userMessage: ChatCompletionRequestMessage = {
+        role: 'user',
+        content: values.prompt
+      };
+      
       const newMessages = [...messages, userMessage];
-      
-      const response = await axios.post('/api/conversation', { messages: newMessages });
+
+      const response = await axios.post('/api/chat', {
+        messages: newMessages
+      });
       setMessages((current) => [...current, userMessage, response.data]);
-      
+
       form.reset();
     } catch (error: any) {
       if (error?.response?.status === 403) {
         proModal.onOpen();
       } else {
-        toast.error("Something went wrong.");
+        toast.error('Something went wrong.');
       }
     } finally {
       router.refresh();
-      }
+    }
+    console.log(values);
+  };
 
-      console.log(values)
-  }
-
-  return ( 
+  return (
     <div className="flex flex-col h-full flex-grow justify-between">
       <Heading
         title="Chat"
@@ -68,8 +71,7 @@ const ChatPage = () => {
         iconColor="text-violet-500"
         bgColor="bg-violet-500/10"
       />
-      <div className="flex grow">
- <div className="space-y-4 mt-4">
+      <div className="space-y-4 items-center">
           {isLoading && (
             <div className="p-8 rounded-lg w-full flex items-center justify-center bg-muted">
               <Loader />
@@ -78,7 +80,7 @@ const ChatPage = () => {
           {messages.length === 0 && !isLoading && (
             <Empty label="No conversation started." />
           )}
-          <div className="flex flex-col-reverse gap-y-4">
+           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (
               <div 
                 key={message.content} 
@@ -94,13 +96,12 @@ const ChatPage = () => {
               </div>
             ))}
           </div>
-        </div> 
-      </div>
+        </div>
       <div className="px-4 lg:px-8">
         <div>
           <Form {...form}>
-            <form 
-              onSubmit={form.handleSubmit(onSubmit)} 
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
               className="
                 rounded-lg 
                 border 
@@ -121,15 +122,20 @@ const ChatPage = () => {
                     <FormControl className="m-0 p-0">
                       <Input
                         className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
-                        disabled={isLoading} 
-                        placeholder="Your message" 
+                        disabled={isLoading}
+                        placeholder="Your message"
                         {...field}
                       />
                     </FormControl>
                   </FormItem>
                 )}
               />
-              <Button className="col-span-12 lg:col-span-2 w-full" type="submit" disabled={isLoading} size="icon">
+              <Button
+                className="col-span-12 lg:col-span-2 w-full"
+                type="submit"
+                disabled={isLoading}
+                size="icon"
+              >
                 Generate
               </Button>
             </form>
@@ -137,8 +143,7 @@ const ChatPage = () => {
         </div>
       </div>
     </div>
-   );
-}
- 
-export default ChatPage;
+  );
+};
 
+export default ChatPage;

@@ -47,6 +47,7 @@ export async function POST(
     //   await incrementApiLimit();
     // }
 
+    console.log(response)
     return NextResponse.json(response.data.choices[0].message);
   } catch (error) {
     console.log('[CONVERSATION_ERROR]', error);
