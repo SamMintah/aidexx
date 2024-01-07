@@ -1,5 +1,12 @@
 'use client';
 import Image from 'next/image';
+import {
+  ArrowRight,
+  Music,
+  FacebookIcon,
+  LinkedinIcon,
+  Code
+} from 'lucide-react';
 
 export const Footer = () => {
   return (
@@ -11,6 +18,7 @@ export const Footer = () => {
         <div className="flex justify-center">
           {/* Social network icons */}
           {/* Add your social network links and icons here */}
+      
         </div>
       </div>
 
@@ -26,10 +34,7 @@ export const Footer = () => {
               </div>{' '}
               aidexx
             </h6>
-            <p>
-              Aidexx AI offers a comprehensive suite
-              of intelligent tools.
-            </p>
+            <p>Aidexx AI offers a comprehensive suite of intelligent tools.</p>
           </div>
 
           {/* Products section */}
@@ -54,6 +59,10 @@ export const Footer = () => {
               Useful links
             </h6>
             {/* Add your useful links here */}
+            <div className={'p-2 w-fit rounded-md'}>
+              <FacebookIcon className={'w-8 h-6'} />
+              <LinkedinIcon className={'w-8 h-6'}/>
+          </div>
           </div>
 
           {/* Contact section */}
@@ -79,5 +88,3 @@ export const Footer = () => {
     </footer>
   );
 };
-
-
